@@ -49,18 +49,17 @@ class AllDataScreen extends StatelessWidget {
                 )
               : Directionality(
                   textDirection: ui.TextDirection.rtl,
-                  child: ListView.separated(
+                  child:isSmallScreen
+                      ? ListView.separated(
                     itemBuilder: (context, index) {
                       var date = DateFormat("yyyy/MM/dd").format(
                           DateTime.parse(data.productsModelList[index].date!));
                       var time = DateFormat("HH:mm a").format(DateTime.parse(
                           data.productsModelList[index].createdAt!));
 
-                      return isSmallScreen
-                          ? buildCard(
-                              index, data, date, time, isSmallScreen, state)
-                          : buildCardDesktop(
+                      return   buildCard(
                               index, data, date, time, isSmallScreen, state);
+
                     },
                     itemCount: data.productsModelList.length,
                     separatorBuilder: (BuildContext context, int index) {
@@ -68,7 +67,9 @@ class AllDataScreen extends StatelessWidget {
                         height: 5,
                       );
                     },
-                  ));
+                  ) : buildCardDesktop(
+                      data
+                       ));
         }),
       ),
     );
@@ -81,33 +82,77 @@ class AllDataScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       clipBehavior: Clip.antiAlias,
+
       margin: EdgeInsets.only(right: 10, bottom: 5, left: 10, top: 10),
       child: SizedBox(
         child: ExpansionTile(
-          tilePadding: EdgeInsets.only(left: 2, right: 10),
-          leading: Text((index+1).toString()),
-          title: Text(
-            ' الاسم : ${data.productsModelList[index].name} ',
-            style: TextStyle(
-                fontSize: isSmallScreen ? 12 : 16, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          tilePadding: EdgeInsets.only(left: 2, right: 2),
+          title: Row(
+
             children: [
-              Text(
-                ' القيمة: ${data.productsModelList[index].prize}  ',
-                style: TextStyle(fontSize: isSmallScreen ? 12 : 15),
+              Container(
+                height: 20,width: 20,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle
+                ),
+                child: Center(child: Text((index+1).toString(),style: TextStyle(fontSize: 13),)),
               ),
               Text(
-                date,
-                style: TextStyle(color: Colors.grey, fontSize: 11),
+                ' الاسم : ${data.productsModelList[index].name} ',
+                style: TextStyle(
+                    fontSize: isSmallScreen ? 12 : 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),
+          subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'القيمة: ${data.productsModelList[index].prize} ',
+                        style: TextStyle(fontSize: isSmallScreen ? 9 : 15),
+                      ),
+                      Text(
+                        'المبلغ المدفوع: ${data.productsModelList[index].prize}',
+                        style: TextStyle(fontSize: isSmallScreen ? 9 : 15),
+                      ),
+
+                    ],
+                  ),
+
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'المبلغ المتبقي:${data.productsModelList[index].prize}',
+                    style: TextStyle(fontSize: isSmallScreen ? 9 : 15),
+                  ),
+                  Text(
+                    'عدد الاثواب:${data.productsModelList[index].numDresses}',
+                    style: TextStyle(fontSize: isSmallScreen ? 9 : 15),
+                  ),
+
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  date,
+                  style: TextStyle(color: Colors.grey, fontSize: 9),
+                ),
+              ),
+
+            ],
+          ),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          childrenPadding: EdgeInsets.all(20),
-          maintainState: true,
+          childrenPadding: EdgeInsets.all(10),
           collapsedIconColor: Colors.grey,
+
           children: [
             Table(
               border: TableBorder.all(color: Colors.black),
@@ -343,260 +388,22 @@ class AllDataScreen extends StatelessWidget {
     );
   }
 
-  Card buildCardDesktop(int index, ProductCubit data, String date, String time,
-      bool isSmallScreen, ProductsMainState state) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      clipBehavior: Clip.antiAlias,
+   buildCardDesktop( ProductCubit data) {
+
+    return Container(
+      width: double.infinity,
+
       margin: EdgeInsets.only(right: 10, bottom: 5, left: 10, top: 10),
       child: DataTable(
         headingRowColor: MaterialStateProperty.all(Colors.black26),
         border: TableBorder.all(color: Colors.black),
-        rows: List.generate(
-          data.productsModelList.length,
-          (index) => DataRow(cells: [
-            DataCell(Center(child: Text((index + 1).toString()))),
-            DataCell(Center(child: Text(data.productsModelList[index].name!))),
-            DataCell(Center(child: Text(data.productsModelList[index].phone!))),
-            DataCell(Center(child: Text("${date}\n ${time}"))),
-            DataCell(Center(
-                child: Text(data.productsModelList[index].prize.toString()))),
-            DataCell(Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      data.deleteProduct(
-                          data.productsModelList[index].sId.toString());
-                    },
-                    icon: Icon(Icons.delete)),
-                IconButton(
-                    onPressed: () async {
-                      final pdfFile = await PdfInvoiceApi.generate(
-                          data.productsModelList[index]);
-
-                      // opening the pdf file
-                      FileHandleApi.openFile(pdfFile);
-                    },
-                    icon: Icon(Icons.print)),
-                IconButton(
-                    onPressed: () {
-                      SmartDialog.show(
-                          backDismiss: true,
-                          onDismiss: () {},
-                          builder: (context) {
-                            return Container(
-                              padding: EdgeInsets.all(20),
-                              width: 600,
-                              height: 600,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              alignment: Alignment.center,
-                              child: ListView(
-                                children: [
-                                  DataTable(
-                                    headingRowColor: MaterialStateProperty.all(
-                                        Colors.black26),
-                                    dataTextStyle: TextStyle(fontSize: 12),
-                                    border:
-                                        TableBorder.all(color: Colors.black),
-                                    rows: List.generate(
-                                      data.productsModelList.length,
-                                      (index) => DataRow(cells: [
-                                        DataCell(Center(
-                                          child: Text(data
-                                              .productsModelList[index]
-                                              .address!),
-                                        )),
-                                        DataCell(Center(
-                                          child: Text(data
-                                              .productsModelList[index].phone!),
-                                        )),
-                                        DataCell(Center(
-                                          child: Text(data
-                                              .productsModelList[index]
-                                              .amountPaid
-                                              .toString()),
-                                        )),
-                                        DataCell(Center(
-                                          child: Text(data
-                                              .productsModelList[index]
-                                              .remainingAmount
-                                              .toString()),
-                                        )),
-                                      ]),
-                                    ),
-                                    columns: const [
-                                      DataColumn(
-                                        label: Center(child: Text('العنوان')),
-                                      ),
-                                      DataColumn(
-                                        label:
-                                            Center(child: Text('رقم الهاتف')),
-                                      ),
-                                      DataColumn(
-                                        label: Center(
-                                            child: Text('المبلغ المدفوع')),
-                                      ),
-                                      DataColumn(
-                                        label: Center(
-                                            child: Text('المبلغ المتبقي')),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
-                                  Directionality(
-                                    textDirection: ui.TextDirection.rtl,
-                                    child: Table(
-                                      border:
-                                          TableBorder.all(color: Colors.black),
-                                      defaultVerticalAlignment:
-                                          TableCellVerticalAlignment.middle,
-                                      children: [
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('عدد الاثواب'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .numDresses
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('الطول'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .length
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('وسع الصدر'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .chestLength
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('الرقبة'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .neck
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('وسع اليد'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .handLength
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'طول الكيك',
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .kLength
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                        TableRow(children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('المفصل'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                                data.productsModelList[index]
-                                                    .mLength
-                                                    .toString(),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  DataTable(
-                                    headingRowColor: MaterialStateProperty.all(
-                                        Colors.black26),
-                                    border:
-                                        TableBorder.all(color: Colors.black),
-                                    rows: List.generate(
-                                      data.productsModelList.length,
-                                      (index) => DataRow(cells: [
-                                        DataCell(Text(data
-                                            .productsModelList[index]
-                                            .details!)),
-                                      ]),
-                                    ),
-                                    columns: const [
-                                      DataColumn(
-                                        label: Text(
-                                          '                                                          ملاحظات',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          });
-                    },
-                    icon: Icon(Icons.more_horiz))
-              ],
-            )),
-          ]),
-        ),
+        rows:List.generate(data.productsModelList.length, (index) {
+          var date = DateFormat("yyyy/MM/dd").format(
+              DateTime.parse(data.productsModelList[index].date!));
+          var time = DateFormat("HH:mm a").format(DateTime.parse(
+              data.productsModelList[index].createdAt!));
+          return buildDataRow(index, data, date, time);
+        } ,),
         columns: const [
           DataColumn(
             label: Center(child: Text('ID')),
@@ -619,5 +426,244 @@ class AllDataScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  DataRow buildDataRow(int index, ProductCubit data, String date, String time) {
+    return DataRow(cells: [
+          DataCell(Center(child: Text((index + 1).toString()))),
+          DataCell(Center(child: Text(data.productsModelList[index].name!))),
+          DataCell(Center(child: Text(data.productsModelList[index].phone!))),
+          DataCell(Center(child: Text("${date}\n ${time}"))),
+          DataCell(Center(
+              child: Text(data.productsModelList[index].prize.toString()))),
+          DataCell(Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    data.deleteProduct(
+                        data.productsModelList[index].sId.toString());
+                  },
+                  icon: Icon(Icons.delete)),
+              IconButton(
+                  onPressed: () async {
+                    final pdfFile = await PdfInvoiceApi.generate(
+                        data.productsModelList[index]);
+
+                    // opening the pdf file
+                    FileHandleApi.openFile(pdfFile);
+                  },
+                  icon: Icon(Icons.print)),
+              IconButton(
+                  onPressed: () {
+                    SmartDialog.show(
+                        backDismiss: true,
+                        onDismiss: () {},
+                        builder: (context) {
+                          return Container(
+                            padding: EdgeInsets.all(20),
+                            width: 600,
+                            height: 600,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            alignment: Alignment.center,
+                            child: ListView(
+                              children: [
+                                DataTable(
+                                  headingRowColor: MaterialStateProperty.all(
+                                      Colors.black26),
+                                  dataTextStyle: TextStyle(fontSize: 12),
+                                  border:
+                                      TableBorder.all(color: Colors.black),
+                                  rows:[  DataRow(cells: [
+                                      DataCell(Center(
+                                        child: Text(data
+                                            .productsModelList[index]
+                                            .address!),
+                                      )),
+                                      DataCell(Center(
+                                        child: Text(data
+                                            .productsModelList[index].phone!),
+                                      )),
+                                      DataCell(Center(
+                                        child: Text(data
+                                            .productsModelList[index]
+                                            .amountPaid
+                                            .toString()),
+                                      )),
+                                      DataCell(Center(
+                                        child: Text(data
+                                            .productsModelList[index]
+                                            .remainingAmount
+                                            .toString()),
+                                      )),
+                                    ])],
+
+                                  columns: const [
+                                    DataColumn(
+                                      label: Center(child: Text('العنوان')),
+                                    ),
+                                    DataColumn(
+                                      label:
+                                          Center(child: Text('رقم الهاتف')),
+                                    ),
+                                    DataColumn(
+                                      label: Center(
+                                          child: Text('المبلغ المدفوع')),
+                                    ),
+                                    DataColumn(
+                                      label: Center(
+                                          child: Text('المبلغ المتبقي')),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                Directionality(
+                                  textDirection: ui.TextDirection.rtl,
+                                  child: Table(
+                                    border:
+                                        TableBorder.all(color: Colors.black),
+                                    defaultVerticalAlignment:
+                                        TableCellVerticalAlignment.middle,
+                                    children: [
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('عدد الاثواب'),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .numDresses
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('الطول'),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .length
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('وسع الصدر'),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .chestLength
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('الرقبة'),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .neck
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('وسع اليد'),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .handLength
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'طول الكيك',
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .kLength
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                      TableRow(children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('المفصل'),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                              data.productsModelList[index]
+                                                  .mLength
+                                                  .toString(),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                DataTable(
+                                  headingRowColor: MaterialStateProperty.all(
+                                      Colors.black26),
+                                  border:
+                                      TableBorder.all(color: Colors.black),
+                                  rows: [DataRow(cells: [
+                                      DataCell(Text(data
+                                          .productsModelList[index]
+                                          .details!)),
+                                    ]),
+                                  ],
+                                  columns: const [
+                                    DataColumn(
+                                      label: Text(
+                                        '                                                          ملاحظات',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  icon: Icon(Icons.more_horiz))
+            ],
+          )),
+        ]);
   }
 }

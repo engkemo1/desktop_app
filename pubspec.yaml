@@ -50,6 +50,7 @@ dependencies:
   url_launcher:
   path_provider_windows: ^2.2.1
   flutter_smart_dialog: ^4.9.5+2
+  selectable_container: ^1.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                            'images/login.jpg',
+                            'images/background.jpeg',
                           ),
                           fit: BoxFit.fill)),
                 )),
@@ -214,6 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Image.asset(
                             'images/crown.png',
                             height: 150,
+                            color: Colors.red,
                           ),
                           const Text(
                             ' اولاد ابو سلطح',
