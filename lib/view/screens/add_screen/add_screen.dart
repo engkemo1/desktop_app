@@ -1,4 +1,5 @@
 import 'dart:ui' as ui;
+import 'package:desktop_app/view_model/cubit/customer_cubit/customers_cubit.dart';
 import 'package:desktop_app/view_model/cubit/products_cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -62,7 +63,19 @@ class _AddScreenState extends State<AddScreen> {
       kom10 = false,
       selected16 = false,
       selected17 = false;
-
+var customer =[];
+  @override
+  void initState() {
+    CustomersCubit().getData().then((value) {
+      setState(() {
+        value.forEach((element) {
+          customer.add(element.userName);
+        });
+      });
+    });
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
@@ -112,21 +125,33 @@ class _AddScreenState extends State<AddScreen> {
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'الاسم',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18),
-                            ),
-                            CustomTextField(
-                              controller: nameController,
-                              isFormField: true,
-                              hintText: 'ادخل اسم المشتري',
-                            ),
-                          ],
-                        ),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'الاسم',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 18),
+                              ),
+                              CustomTextField(
+                                suffix: Icon(Icons.add_reaction_outlined),
+                                prefix: PopupMenuButton(
+                                  onSelected: (c) {
+                                    setState(() {
+                                      nameController..text=c.toString();
+                                    });
+                                  },
+                                  child: const Icon(Icons.arrow_drop_down),
+                                  itemBuilder: (context) => customer
+                                      .map((c) => PopupMenuItem(
+                                          value: c, child: Text(c)))
+                                      .toList(),
+                                ),
+                                controller: nameController,
+                                isFormField: true,
+                                hintText: 'ادخل اسم المشتري',
+                              )
+                            ]),
                       )),
                       Expanded(
                           child: Padding(
@@ -537,7 +562,6 @@ class _AddScreenState extends State<AddScreen> {
                           ],
                         ),
                       ),
-
                       Expanded(
                           child: ExpansionTile(
                         shape: Border(),
@@ -618,13 +642,11 @@ class _AddScreenState extends State<AddScreen> {
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                         ],
                       )),
                       Divider(),
-
                       Expanded(
                           child: ExpansionTile(
                         shape: Border(),

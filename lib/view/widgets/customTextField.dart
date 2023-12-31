@@ -10,6 +10,9 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final TextInputType? textInputType;
   final int? maxLine;
+  final Widget? prefix;
+  final Widget? suffix;
+
   final FocusNode? focusNode;
   final FocusNode? nextNode;
   final TextInputAction? textInputAction;
@@ -34,7 +37,7 @@ class CustomTextField extends StatelessWidget {
         this.validatorMessage,
         this.capitalization = TextCapitalization.none,
         this.fillColor,
-        this.isBorder = false,  this.isFormField,
+        this.isBorder = false,  this.isFormField, this.prefix, this.suffix,
       });
 
   @override
@@ -61,6 +64,8 @@ class CustomTextField extends StatelessWidget {
     },
 
           decoration: InputDecoration(
+            prefixIcon: prefix??null,
+              suffixIcon: suffix??null,
 
 errorMaxLines: 1,
             errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),

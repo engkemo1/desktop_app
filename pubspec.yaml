@@ -52,6 +52,7 @@ dependencies:
   flutter_smart_dialog: ^4.9.5+2
   selectable_container: ^1.0.7
   empty_widget: ^0.0.5
+  dropdown_textfield: ^1.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

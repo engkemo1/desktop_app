@@ -63,12 +63,12 @@ await Dio()
     print(customerModel.address);
     ToastContext().init(context);
 
-    emit(UpdateCustomersLoadingState());
+    emit(GetCustomersLoadingState());
 
     try {
       print(customerModel.toJson());
       await Dio()
-          .put("https://panicky-boa-garment.cyclic.app/products/customers/$id",
+          .patch("https://panicky-boa-garment.cyclic.app/products/customers/$id",
           data: {
             'userName': customerModel.userName,
             "address":customerModel.address,
@@ -82,7 +82,7 @@ await Dio()
         if (value.statusCode == 200) {
           Toast.show("تم التحديث بنجاح ", duration: Toast.lengthLong, gravity:  Toast.bottom);
 
-          emit(UpdateCustomersSuccessState());
+          emit(GetCustomersSuccessState());
         }
       });
     } on DioError catch (e) {
@@ -90,7 +90,7 @@ await Dio()
       Toast.show(e.response!.data['message'], duration: Toast.lengthLong, gravity:  Toast.bottom);
 
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      emit(UpdateCustomersErrorState(e));
+      emit(GetCustomersErrorState(e));
 
       throw errorMessage;
     }
@@ -120,9 +120,10 @@ await Dio()
 
       throw errorMessage;
     }
+    return customerModelList;
   }
   Future deleteCustomer(String id) async {
-    emit(DeleteCustomersLoadingState());
+    emit(GetCustomersLoadingState());
 
     try {
       await Dio()
@@ -132,7 +133,7 @@ await Dio()
           getData();
           Toast.show("تم الحذف بنجاح", duration: Toast.lengthLong, gravity:  Toast.bottom);
 
-          emit(DeleteCustomersSuccessState());
+          emit(GetCustomersSuccessState());
         }
       });
     } on DioError catch (e) {
@@ -140,7 +141,7 @@ await Dio()
       Toast.show(e.response!.data['message'], duration: Toast.lengthLong, gravity:  Toast.bottom);
 
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      emit(DeleteCustomersErrorState(e));
+      emit(GetCustomersErrorState(e));
 
       throw errorMessage;
     }
