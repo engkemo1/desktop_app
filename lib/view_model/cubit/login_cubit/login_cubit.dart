@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:desktop_app/view/screens/main_screen.dart';
+import 'package:desktop_app/view_model/database/local/cache_helper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,10 +25,11 @@ class LoginCubit extends Cubit<LoginMainState> {
       var response = await DioHelper.postData(
           url:"https://node-mongo-dn.onrender.com/products/login", data: {'userName': userName, 'password': password});
       if (response.statusCode==200) {
-        print(response.statusCode.toString());
-        print(response.data.toString());
+
 
         navigator(context, MainScreen());
+        await CacheHelper.put(key: "user", value: response.data["accessToken"]);
+        print(CacheHelper.get(key: "user"));
         emit(LoginSuccessState());
       } else {
         Toast.show("Authentication failed \n password or name is incorrect", duration: Toast.lengthShort, gravity:  Toast.bottom);

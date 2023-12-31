@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:desktop_app/view/screens/login/login_screen.dart';
+import 'package:desktop_app/view/screens/main_screen.dart';
 import 'package:desktop_app/view_model/database/local/cache_helper.dart';
 import 'package:desktop_app/view_model/database/network/dio-helper.dart';
 import 'package:flutter/foundation.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
               theme: theme,
               darkTheme: darkTheme,
               title: 'Flutter Demo',
-              home: LoginScreen(),
+              home: CacheHelper.get(key: "user")==null?LoginScreen():MainScreen(),
           navigatorObservers: [FlutterSmartDialog.observer],
           // here
           builder: FlutterSmartDialog.init(),

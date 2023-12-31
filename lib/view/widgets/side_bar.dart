@@ -1,7 +1,9 @@
+import 'package:desktop_app/view_model/database/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../../constants.dart';
+import '../screens/login/login_screen.dart';
 
 class SidebarXWidget extends StatelessWidget {
   const SidebarXWidget({
@@ -100,19 +102,30 @@ class SidebarXWidget extends StatelessWidget {
           ),
         );
       },
-      items: const [
+      items:  [
 
-         SidebarXItem(
+        const   SidebarXItem(
           icon: Icons.folder,
-          label: 'المحفوظات',
+          label: 'الفواتير',
         ),
-         SidebarXItem(
+        const   SidebarXItem(
           icon: Icons.add,
-          label: 'اضافة',
+          label: 'اضافة فاتورة',
+        ),
+        const  SidebarXItem(
+          icon: Icons.add_reaction_outlined,
+          label: 'اضافة عميل',
+        ),const SidebarXItem(
+          icon: Icons.account_box_sharp,
+          label: 'العملاء',
         ),
          SidebarXItem(
           icon: Icons.exit_to_app,
           label: 'خروج',
+           onTap: (){
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=> LoginScreen()));
+            CacheHelper.removeData(key: "user");
+           }
         ),
 
       ],

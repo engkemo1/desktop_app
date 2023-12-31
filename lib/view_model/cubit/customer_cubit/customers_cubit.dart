@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:desktop_app/view/screens/customerScreen/add_customer.dart';
 import 'package:desktop_app/view_model/cubit/products_cubit/add_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,64 +9,44 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
+import '../../../Model/customer_model.dart';
 import '../../../Model/products_model.dart';
 import '../../database/local/cache_helper.dart';
 import '../../database/network/dio-helper.dart';
 import '../../database/network/dio_exceptions.dart';
+import 'customer_state.dart';
 
-class ProductCubit extends Cubit<ProductsMainState> {
-  ProductCubit() : super(ProductsMainInitialState());
+class CustomersCubit extends Cubit<CustomersMainState> {
+  CustomersCubit() : super(CustomersMainInitialState());
 
-  static ProductCubit get(context) => BlocProvider.of(context);
-  List<ProductsModel> productsModelList = [];
-String selectedDate=DateFormat.yMd().format(DateTime.now());
-changeDate(var date){
-  selectedDate=date;
-  emit(state);
+  static CustomersCubit get(context) => BlocProvider.of(context);
+  List<Customer> customerModelList = [];
 
-}
-  // String token=  CacheHelper.get(key: 'token');
 
-  Future postProduct(BuildContext context,ProductsModel productsModel) async {
-    emit(AddProductsLoadingState());
-    FormData formData = FormData.fromMap({
-      'name': productsModel.name,
-      "date": productsModel.date!,
-      'length': productsModel.length,
-      "address":productsModel.address,
-      "amount_paid": productsModel.amountPaid,
-      "chest_length": productsModel.chestLength,
-      "created_at": DateTime.now(),
-      "details": productsModel.details,
-      'hand_length': productsModel.handLength,
-      'image': productsModel.image,
-      'k_length': productsModel.kLength,
-      'm_length': productsModel.mLength,
-      'num_dresses': productsModel.numDresses,
-      "neck": productsModel.neck,
-      "phone": productsModel.phone,
-      "prize": productsModel.prize,
-      "Remaining_amount": productsModel.remainingAmount,
-      "user_id": productsModel.userId,
+  Future postCustomer(BuildContext context,Customer customerModel) async {
+    print(customerModel.address);
+    ToastContext().init(context);
 
-    });
+    emit(AddCustomersLoadingState());
+
     try {
-      await Dio()
-          .post("https://panicky-boa-garment.cyclic.app/products",
-          data: formData)
+print(customerModel.toJson());
+await Dio()
+          .post("https://panicky-boa-garment.cyclic.app/products/customers",
+            data: {
+    'userName': customerModel.userName,
+    "address":customerModel.address,
+    "phone": customerModel.phone,
+    "Remaining_amount": customerModel.remainingAmount,
+
+    })
 
 
           .then((value) {
         if (value.statusCode == 200) {
-          ProductsModel responseBody ;
-
-      responseBody=   ProductsModel.fromJson(value.data);
-          print(responseBody.address);
-
-
           Toast.show("تم الاضافة بنجاح ", duration: Toast.lengthLong, gravity:  Toast.bottom);
 
-          emit(AddProductsSuccessState());
+          emit(AddCustomersSuccessState());
         }
       });
     } on DioError catch (e) {
@@ -73,47 +54,85 @@ changeDate(var date){
       Toast.show(e.response!.data['message'], duration: Toast.lengthLong, gravity:  Toast.bottom);
 
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      emit(AddProductsErrorState(e));
+      emit(AddCustomersErrorState(e));
 
       throw errorMessage;
     }
   }
+  Future updateCustomer(BuildContext context,Customer customerModel,String id) async {
+    print(customerModel.address);
+    ToastContext().init(context);
+
+    emit(UpdateCustomersLoadingState());
+
+    try {
+      print(customerModel.toJson());
+      await Dio()
+          .put("https://panicky-boa-garment.cyclic.app/products/customers/$id",
+          data: {
+            'userName': customerModel.userName,
+            "address":customerModel.address,
+            "phone": customerModel.phone,
+            "Remaining_amount": customerModel.remainingAmount,
+
+          })
+
+
+          .then((value) {
+        if (value.statusCode == 200) {
+          Toast.show("تم التحديث بنجاح ", duration: Toast.lengthLong, gravity:  Toast.bottom);
+
+          emit(UpdateCustomersSuccessState());
+        }
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+      Toast.show(e.response!.data['message'], duration: Toast.lengthLong, gravity:  Toast.bottom);
+
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      emit(UpdateCustomersErrorState(e));
+
+      throw errorMessage;
+    }
+  }
+
   Future getData() async {
-  productsModelList=[];
-    emit(GetProductsLoadingState());
+  customerModelList=[];
+    emit(GetCustomersLoadingState());
 
     try {
       await Dio()
-          .get("https://panicky-boa-garment.cyclic.app/products",
+          .get("https://panicky-boa-garment.cyclic.app/products/customers",
            ).then((value) {
         if (value.statusCode == 200) {
-        productsModelList=  (value.data as List).map((e) => ProductsModel.fromJson(e)).toList();
+        customerModelList=  (value.data as List).map((e) => Customer.fromJson(e)).toList();
+        print(customerModelList);
+
+          emit(GetCustomersSuccessState());
         }
       });
-      emit(AddProductsSuccessState());
-
     } on DioError catch (e) {
       print(e.response!.data);
       Toast.show(e.response!.data['message'], duration: Toast.lengthLong, gravity:  Toast.bottom);
 
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      emit(AddProductsErrorState(e));
+      emit(GetCustomersErrorState(e));
 
       throw errorMessage;
     }
   }
-  Future deleteProduct(String id) async {
-    emit(GetProductsLoadingState());
+  Future deleteCustomer(String id) async {
+    emit(DeleteCustomersLoadingState());
 
     try {
       await Dio()
-          .delete("https://panicky-boa-garment.cyclic.app/products/$id",
+          .delete("https://panicky-boa-garment.cyclic.app/products/customers/$id",
       ).then((value) {
         if (value.statusCode == 200) {
           getData();
           Toast.show("تم الحذف بنجاح", duration: Toast.lengthLong, gravity:  Toast.bottom);
 
-          emit(AddProductsSuccessState());
+          emit(DeleteCustomersSuccessState());
         }
       });
     } on DioError catch (e) {
@@ -121,7 +140,7 @@ changeDate(var date){
       Toast.show(e.response!.data['message'], duration: Toast.lengthLong, gravity:  Toast.bottom);
 
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      emit(AddProductsErrorState(e));
+      emit(DeleteCustomersErrorState(e));
 
       throw errorMessage;
     }
