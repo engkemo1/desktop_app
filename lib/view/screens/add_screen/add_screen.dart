@@ -34,15 +34,34 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController mLengthController = TextEditingController();
   TextEditingController handLengthController = TextEditingController();
   String _selectedDate = DateFormat.yMd().format(DateTime.now());
-  ExpansionTileController controller1=ExpansionTileController();
-  ExpansionTileController controller2=ExpansionTileController();
-  ExpansionTileController controller3=ExpansionTileController();
- bool selected1=false;
-  bool selected2=false;
-  bool selected3=false;
-  bool selected4=false;
-  bool selected5=false;
-
+  ExpansionTileController controller1 = ExpansionTileController();
+  ExpansionTileController controller2 = ExpansionTileController();
+  ExpansionTileController controller3 = ExpansionTileController();
+  bool glab1 = false,
+      glab2 = false,
+      ya2a1 = false,
+      ya2a2 = false,
+      ya2a3 = false,
+      gyb1 = false,
+      gyb2 = false,
+      gyb3 = false,
+      ganb1 = false,
+      ganb2 = false,
+      taqwera1 = false,
+      taqwera2 = false,
+      taqwera3 = false,
+      kom1 = false,
+      kom2 = false,
+      kom3 = false,
+      kom4 = false,
+      kom5 = false,
+      kom6 = false,
+      kom7 = false,
+      kom8 = false,
+      kom9 = false,
+      kom10 = false,
+      selected16 = false,
+      selected17 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -455,20 +474,17 @@ class _AddScreenState extends State<AddScreen> {
                       const Spacer()
                     ],
                   ),
-                  Divider(),
                   Row(
                     children: [
                       Expanded(
                         flex: 1,
                         child: ExpansionTile(
-
                           shape: Border(),
-
-                          title: Column(
-                            children:[SvgPicture.asset('images/11.svg',
+                          title: Column(children: [
+                            SvgPicture.asset('images/11.svg',
                                 height: 80, semanticsLabel: 'Acme Logo'),
-                              Text('جلاب'),
-                         ] ),
+                            Text('جلاب'),
+                          ]),
                           children: [
                             Wrap(
                               children: [
@@ -480,15 +496,15 @@ class _AddScreenState extends State<AddScreen> {
                                       SelectableContainer(
                                         onValueChanged: (newValue) {
                                           setState(() {
-                                            selected1 = newValue; selected3=false;
-                                            selected2=false;
-
+                                            glab1 = newValue;
+                                            glab2 = false;
                                           });
-                                        },                                        selected: selected1,
-                                        child:
-                                      
-                                          SvgPicture.asset("images/11.svg",height: 100,),
-                                      
+                                        },
+                                        selected: glab1,
+                                        child: SvgPicture.asset(
+                                          "images/11.svg",
+                                          height: 100,
+                                        ),
                                       ),
                                       Text('جلاب 2 زرار')
                                     ],
@@ -502,194 +518,211 @@ class _AddScreenState extends State<AddScreen> {
                                       SelectableContainer(
                                         onValueChanged: (newValue) {
                                           setState(() {
-                                            selected2 = newValue;
-                                            selected1=false;
-                                            selected3=false;
+                                            glab2 = newValue;
+                                            glab1 = false;
                                           });
-                                        },                                        selected: selected2,
-                                        child:
-
-                                        SvgPicture.asset("images/10.svg",height: 100,),
-
+                                        },
+                                        selected: glab2,
+                                        child: SvgPicture.asset(
+                                          "images/10.svg",
+                                          height: 100,
+                                        ),
                                       ),
                                       Text('جلاب 1 زرار')
                                     ],
                                   ),
                                 ),
-
-
                               ],
                             ),
                           ],
                         ),
                       ),
+
                       Expanded(
                           child: ExpansionTile(
-                            shape: Border(),
-
-                            controller: controller1,
-                     title:       Column(
-                                children:[SvgPicture.asset('images/19.svg',
-                                    height: 80, semanticsLabel: 'Acme Logo'),
-                                  Text('الياقة'),
-                                ]
-
-                     ),
+                        shape: Border(),
+                        title: Column(children: [
+                          SvgPicture.asset('images/19.svg',
+                              height: 80, semanticsLabel: 'Acme Logo'),
+                          Text('الياقة'),
+                        ]),
+                        children: [
+                          Wrap(
                             children: [
-                              Wrap(
-                                children: [
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected1 = newValue; selected3=false;
-                                              selected2=false;
-
-                                            });
-                                          },                                        selected: selected1,
-                                          child:
-
-                                          SvgPicture.asset("images/19.svg",height: 100,),
-
-                                        ),
-                                        Text('الياقة بدون زراير')
-                                      ],
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    SelectableContainer(
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          ya2a1 = newValue;
+                                          ya2a3 = false;
+                                          ya2a2 = false;
+                                        });
+                                      },
+                                      selected: ya2a1,
+                                      child: SvgPicture.asset(
+                                        "images/19.svg",
+                                        height: 100,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
-                                            });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/26.svg",height: 100,),
-
-                                        ),
-                                        Text('الياقة 2 زرار')
-                                      ],
-                                    ),
-                                  ),
-
-
-                                ],
+                                    Text('الياقة بدون زراير')
+                                  ],
+                                ),
                               ),
-                            ],)),
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    SelectableContainer(
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          ya2a2 = newValue;
+                                          ya2a1 = false;
+                                          ya2a3 = false;
+                                        });
+                                      },
+                                      selected: ya2a2,
+                                      child: SvgPicture.asset(
+                                        "images/26.svg",
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Text('الياقة 2 زرار')
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    SelectableContainer(
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          ya2a3 = newValue;
+                                          ya2a1 = false;
+                                          ya2a2 = false;
+                                        });
+                                      },
+                                      selected: ya2a3,
+                                      child: SvgPicture.asset(
+                                        "images/glap.svg",
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Text('الياقة زرار واحد')
+                                  ],
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ],
+                      )),
+                      Divider(),
+
                       Expanded(
                           child: ExpansionTile(
-                            shape: Border(),
-
-                            title:       Column(
-                                children:[SvgPicture.asset('images/23.svg',
-                                    height: 80, semanticsLabel: 'Acme Logo'),
-                                  Text('الجيب'),
-                                ]
-
-                            ),
+                        shape: Border(),
+                        title: Column(children: [
+                          SvgPicture.asset('images/23.svg',
+                              height: 80, semanticsLabel: 'Acme Logo'),
+                          Text('الجيب'),
+                        ]),
+                        children: [
+                          Wrap(
                             children: [
-                              Wrap(
-                                children: [
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected1 = newValue; selected3=false;
-                                              selected2=false;
-
-                                            });
-                                          },                                        selected: selected1,
-                                          child:
-
-                                          SvgPicture.asset("images/23.svg",height: 100,),
-
-                                        ),
-                                        Text('جيب مدور')
-                                      ],
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    SelectableContainer(
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          gyb1 = newValue;
+                                          gyb2 = false;
+                                          gyb3 = false;
+                                        });
+                                      },
+                                      selected: gyb1,
+                                      child: SvgPicture.asset(
+                                        "images/23.svg",
+                                        height: 100,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
-                                            });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/16.svg",height: 100,),
-
-                                        ),
-                                        Text('جيب مربع مثلث')
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
-                                            });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/21.svg",height: 100,),
-
-                                        ),
-                                        Text('جيب مربع')
-                                      ],
-                                    ),
-                                  ),
-
-
-                                ],
+                                    Text('جيب مدور')
+                                  ],
+                                ),
                               ),
-                            ],)),
-
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    SelectableContainer(
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          gyb2 = newValue;
+                                          gyb1 = false;
+                                          gyb3 = false;
+                                        });
+                                      },
+                                      selected: gyb2,
+                                      child: SvgPicture.asset(
+                                        "images/16.svg",
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Text('جيب مربع مثلث')
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Column(
+                                  children: [
+                                    SelectableContainer(
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          gyb3 = newValue;
+                                          gyb1 = false;
+                                          gyb2 = false;
+                                        });
+                                      },
+                                      selected: gyb3,
+                                      child: SvgPicture.asset(
+                                        "images/21.svg",
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Text('جيب مربع')
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
                     ],
                   ),
                   Divider(),
-
                   Row(
                     children: [
                       Expanded(
                         flex: 1,
                         child: ExpansionTile(
                           shape: Border(),
-
-
-                          title: Column(
-                              children:[SvgPicture.asset('images/11.svg',
-                                  height: 80, semanticsLabel: 'Acme Logo'),
-                                Text('جلاب'),
-                              ] ),
+                          title: Column(children: [
+                            SvgPicture.asset('images/8.svg',
+                                height: 80, semanticsLabel: 'Acme Logo'),
+                            Text('الجانب'),
+                          ]),
                           children: [
                             Wrap(
                               children: [
@@ -701,17 +734,17 @@ class _AddScreenState extends State<AddScreen> {
                                       SelectableContainer(
                                         onValueChanged: (newValue) {
                                           setState(() {
-                                            selected1 = newValue; selected3=false;
-                                            selected2=false;
-
+                                            ganb1 = newValue;
+                                            ganb2 = false;
                                           });
-                                        },                                        selected: selected1,
-                                        child:
-
-                                        SvgPicture.asset("images/11.svg",height: 100,),
-
+                                        },
+                                        selected: ganb1,
+                                        child: SvgPicture.asset(
+                                          "images/8.svg",
+                                          height: 100,
+                                        ),
                                       ),
-                                      Text('جلاب 2 زرار')
+                                      Text('جانب شق')
                                     ],
                                   ),
                                 ),
@@ -723,149 +756,119 @@ class _AddScreenState extends State<AddScreen> {
                                       SelectableContainer(
                                         onValueChanged: (newValue) {
                                           setState(() {
-                                            selected2 = newValue;
-                                            selected1=false;
-                                            selected3=false;
+                                            ganb2 = newValue;
+                                            ganb1 = false;
                                           });
-                                        },                                        selected: selected2,
-                                        child:
-
-                                        SvgPicture.asset("images/10.svg",height: 100,),
-
+                                        },
+                                        selected: ganb2,
+                                        child: SvgPicture.asset(
+                                          "images/9.svg",
+                                          height: 100,
+                                        ),
                                       ),
-                                      Text('جلاب 1 زرار')
+                                      Text('جانب بشليك')
                                     ],
                                   ),
                                 ),
-
-
                               ],
                             ),
                           ],
                         ),
                       ),
-                      Expanded(                        flex: 1,
-
-
-                          child: ExpansionTile(
-                            shape: Border(),
-
-                            title:       Column(
-                                children:[SvgPicture.asset('images/12.svg',
-                                    height: 80, semanticsLabel: 'Acme Logo'),
-                                  Text('التقويره'),
-                                ]
-
-                            ),
-                            children: [
-                              Wrap(
-                                children: [
-                                  SizedBox(
-                                    height: 160,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected1 = newValue; selected3=false;
-                                              selected2=false;
-
-                                            });
-                                          },                                        selected: selected1,
-                                          child:
-
-                                          SvgPicture.asset("images/3.svg",height: 100,),
-
-                                        ),
-                                        Text('صدر مخفي')
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
-                                            });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/6.svg",height: 100,),
-
-                                        ),
-                                        Text('صدر عادي')
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 160,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
-                                            });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/5.svg",height: 100,),
-
-                                        ),
-                                        Text('صدر لون فى لون 2 خط')
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 150,
-                                    width: 150,
-                                    child: Column(
-                                      children: [
-                                        SelectableContainer(
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
-                                            });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/6.svg",height: 100,),
-
-                                        ),
-                                        Text('صدر لون فى لون 1 خط')
-                                      ],
-                                    ),
-                                  ),
-
-
-                                ],
-                              ),
-                            ],)),
                       Expanded(
                           flex: 1,
-
                           child: ExpansionTile(
                             shape: Border(),
-
-                            title:       Column(
-                                children:[SvgPicture.asset('images/17.svg',
-                                    height: 80, semanticsLabel: 'Acme Logo'),
-                                  Text('الكم'),
-                                ]
-
-                            ),
+                            title: Column(children: [
+                              SvgPicture.asset('images/12.svg',
+                                  height: 80, semanticsLabel: 'Acme Logo'),
+                              Text('التقويره'),
+                            ]),
+                            children: [
+                              Wrap(
+                                children: [
+                                  SizedBox(
+                                    height: 160,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              taqwera1 = newValue;
+                                              taqwera2 = false;
+                                              taqwera3 = false;
+                                            });
+                                          },
+                                          selected: taqwera1,
+                                          child: SvgPicture.asset(
+                                            "images/12.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text('كلفة تامة بشليك')
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              taqwera2 = newValue;
+                                              taqwera1 = false;
+                                              taqwera3 = false;
+                                            });
+                                          },
+                                          selected: taqwera2,
+                                          child: SvgPicture.asset(
+                                            "images/13.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text('كلفة تامة نص ياقة')
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 160,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              taqwera3 = newValue;
+                                              taqwera2 = false;
+                                              taqwera1 = false;
+                                            });
+                                          },
+                                          selected: taqwera3,
+                                          child: SvgPicture.asset(
+                                            "images/7.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text('جلابية قشرة')
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: ExpansionTile(
+                            shape: Border(),
+                            title: Column(children: [
+                              SvgPicture.asset('images/8.svg',
+                                  height: 80, semanticsLabel: 'Acme Logo'),
+                              Text('الكم'),
+                            ]),
                             children: [
                               Wrap(
                                 children: [
@@ -877,17 +880,25 @@ class _AddScreenState extends State<AddScreen> {
                                         SelectableContainer(
                                           onValueChanged: (newValue) {
                                             setState(() {
-                                              selected1 = newValue; selected3=false;
-                                              selected2=false;
-
+                                              kom1 = newValue;
+                                              kom2 = false;
+                                              kom7 = false;
+                                              kom3 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
                                             });
-                                          },                                        selected: selected1,
-                                          child:
-
-                                          SvgPicture.asset("images/23.svg",height: 100,),
-
+                                          },
+                                          selected: kom1,
+                                          child: SvgPicture.asset(
+                                            "images/17.svg",
+                                            height: 100,
+                                          ),
                                         ),
-                                        Text('جيب مدور')
+                                        Text('اساورة مربع كسرة واحدة')
                                       ],
                                     ),
                                   ),
@@ -899,17 +910,25 @@ class _AddScreenState extends State<AddScreen> {
                                         SelectableContainer(
                                           onValueChanged: (newValue) {
                                             setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
+                                              kom2 = newValue;
+                                              kom3 = false;
+                                              kom1 = false;
+                                              kom7 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
                                             });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/16.svg",height: 100,),
-
+                                          },
+                                          selected: kom2,
+                                          child: SvgPicture.asset(
+                                            "images/20.svg",
+                                            height: 100,
+                                          ),
                                         ),
-                                        Text('جيب مربع مثلث')
+                                        Text('اساورة مربع 2 كسرة')
                                       ],
                                     ),
                                   ),
@@ -921,29 +940,244 @@ class _AddScreenState extends State<AddScreen> {
                                         SelectableContainer(
                                           onValueChanged: (newValue) {
                                             setState(() {
-                                              selected2 = newValue;
-                                              selected1=false;
-                                              selected3=false;
+                                              kom3 = newValue;
+                                              kom2 = false;
+                                              kom7 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
                                             });
-                                          },                                        selected: selected2,
-                                          child:
-
-                                          SvgPicture.asset("images/21.svg",height: 100,),
-
+                                          },
+                                          selected: kom3,
+                                          child: SvgPicture.asset(
+                                            "images/25.svg",
+                                            height: 100,
+                                          ),
                                         ),
-                                        Text('جيب مربع')
+                                        Text(' اساورة مربع بدون كسرة')
                                       ],
                                     ),
                                   ),
-
-
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom4 = newValue;
+                                              kom2 = false;
+                                              kom3 = false;
+                                              kom1 = false;
+                                              kom7 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
+                                            });
+                                          },
+                                          selected: kom4,
+                                          child: SvgPicture.asset(
+                                            "images/20.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text(' اساورة 2 كسرة')
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom5 = newValue;
+                                              kom7 = false;
+                                              kom3 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom2 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
+                                            });
+                                          },
+                                          selected: kom5,
+                                          child: SvgPicture.asset(
+                                            "images/24.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text(' اساورة كسرة واحدة')
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom6 = newValue;
+                                              kom7 = false;
+                                              kom3 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom2 = false;
+                                              kom8 = false;
+                                            });
+                                          },
+                                          selected: kom6,
+                                          child: SvgPicture.asset(
+                                            "images/22.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text("اساورة بشليك")
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom7 = newValue;
+                                              kom2 = false;
+                                              kom3 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
+                                            });
+                                          },
+                                          selected: kom7,
+                                          child: SvgPicture.asset(
+                                            "images/15.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text("الكم سادة")
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom8 = newValue;
+                                              kom3 = false;
+                                              kom7 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom2 = false;
+                                            });
+                                          },
+                                          selected: kom8,
+                                          child: SvgPicture.asset(
+                                            "images/14.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text("الكم سادة+بشليك لزق")
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom9 = newValue;
+                                              kom3 = false;
+                                              kom7 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom2 = false;
+                                              kom5 = false;
+                                              kom10 = false;
+                                              kom6 = false;
+                                              kom8 = false;
+                                            });
+                                          },
+                                          selected: kom9,
+                                          child: SvgPicture.asset(
+                                            "images/8.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text('كم بلدي')
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      children: [
+                                        SelectableContainer(
+                                          onValueChanged: (newValue) {
+                                            setState(() {
+                                              kom10 = newValue;
+                                              kom3 = false;
+                                              kom7 = false;
+                                              kom1 = false;
+                                              kom4 = false;
+                                              kom9 = false;
+                                              kom5 = false;
+                                              kom2 = false;
+                                              kom6 = false;
+                                              kom8 = false;
+                                            });
+                                          },
+                                          selected: kom10,
+                                          child: SvgPicture.asset(
+                                            "images/9.svg",
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Text('كم شعراوي علية زراير')
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ],)),
-
+                            ],
+                          )),
                     ],
                   ),
-
                   Divider(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
