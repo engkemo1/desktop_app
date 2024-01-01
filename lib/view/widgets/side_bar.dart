@@ -109,7 +109,7 @@ class SidebarXWidget extends StatelessWidget {
           label: 'الفواتير',
         ),
         const   SidebarXItem(
-          icon: Icons.add,
+          icon: Icons.add_circle_outline_sharp,
           label: 'اضافة فاتورة',
         ),
         const  SidebarXItem(

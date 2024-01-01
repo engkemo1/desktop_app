@@ -33,6 +33,9 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController detailsController = TextEditingController();
   TextEditingController kLengthController = TextEditingController();
   TextEditingController mLengthController = TextEditingController();
+  TextEditingController ketfLengthController = TextEditingController();
+  TextEditingController komLengthController = TextEditingController();
+
   TextEditingController handLengthController = TextEditingController();
   String _selectedDate = DateFormat.yMd().format(DateTime.now());
   ExpansionTileController controller1 = ExpansionTileController();
@@ -61,9 +64,13 @@ class _AddScreenState extends State<AddScreen> {
       kom8 = false,
       kom9 = false,
       kom10 = false,
-      selected16 = false,
-      selected17 = false;
-var customer =[];
+      sadr1 = false,
+      sadr2 = false,
+      sadr3 = false,
+      sadr4 = false;
+
+  var customer = [];
+
   @override
   void initState() {
     CustomersCubit().getData().then((value) {
@@ -76,6 +83,7 @@ var customer =[];
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
@@ -116,8 +124,24 @@ var customer =[];
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Image.asset(
+                        'images/crown.png',
+                        height: 60,
+                        color: accentCanvasColor,
+                      ),
+                      const  Text(
+                        "اضافة فاتورة",
+                        style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -134,17 +158,18 @@ var customer =[];
                                     fontWeight: FontWeight.w500, fontSize: 18),
                               ),
                               CustomTextField(
-                                suffix: Icon(Icons.add_reaction_outlined),
-                                prefix: PopupMenuButton(
+
+                                prefix: Icon(Icons.add_reaction_outlined),
+                                suffix: PopupMenuButton(
                                   onSelected: (c) {
                                     setState(() {
-                                      nameController..text=c.toString();
+                                      nameController..text = c.toString();
                                     });
                                   },
                                   child: const Icon(Icons.arrow_drop_down),
                                   itemBuilder: (context) => customer
-                                      .map((c) => PopupMenuItem(
-                                          value: c, child: Text(c)))
+                                      .map((c) =>
+                                      PopupMenuItem(value: c, child: Text(c)))
                                       .toList(),
                                 ),
                                 controller: nameController,
@@ -166,6 +191,8 @@ var customer =[];
                                   fontWeight: FontWeight.w500, fontSize: 18),
                             ),
                             CustomTextField(
+                              prefix: Icon(Icons.phone_android),
+
                               controller: phoneController,
                               isPhoneNumber: true,
                               hintText: 'ادخل رقم الهاتف',
@@ -187,6 +214,8 @@ var customer =[];
                                   fontWeight: FontWeight.w500, fontSize: 18),
                             ),
                             CustomTextField(
+                              prefix: Icon(Icons.home_outlined),
+
                               controller: addressController,
                               textInputType: TextInputType.streetAddress,
                               isFormField: true,
@@ -213,6 +242,8 @@ var customer =[];
                                   fontWeight: FontWeight.w500, fontSize: 18),
                             ),
                             CustomTextField(
+                              prefix: Icon(Icons.attach_money),
+
                               controller: prizeController,
                               textInputType: TextInputType.number,
                               hintText: 'ادخل القيمة',
@@ -233,7 +264,9 @@ var customer =[];
                               style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 18),
                             ),
-                            CustomTextField(
+                            CustomTextField(                              prefix: Icon(Icons.attach_money),
+
+
                               controller: amountPaidController,
                               textInputType: TextInputType.number,
                               isFormField: true,
@@ -255,6 +288,8 @@ var customer =[];
                                   fontWeight: FontWeight.w500, fontSize: 15),
                             ),
                             CustomTextField(
+                              prefix: Icon(Icons.attach_money),
+
                               controller: remainingAmountController,
                               textInputType: TextInputType.number,
                               hintText: 'ادخل المبلغ المتبقى',
@@ -318,8 +353,8 @@ var customer =[];
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                     // iconOrdrop: 'button',
-                                    suffix: const Icon(
-                                      Icons.date_range,
+                                    prefixIcon: const Icon(
+                                      Icons.date_range_outlined,
                                       size: 25,
                                       color: accentCanvasColor,
                                     ),
@@ -334,7 +369,12 @@ var customer =[];
                       const Spacer()
                     ],
                   ),
-                  Divider(),
+                  const Row(children: [
+                    Expanded(child: Divider()),
+                    Text("     المقاسات    ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                      Expanded(child: Divider()),
+
+                  ],),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -379,33 +419,79 @@ var customer =[];
                             ),
                           ],
                         ),
-                      )),
-                      Expanded(
+                      )),                      Expanded(
                           child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'وسع الصدر',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'الكتف',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 18),
+                                ),
+                                CustomTextField(
+                                  controller: ketfLengthController,
+                                  textInputType: TextInputType.number,
+                                  hintText: 'ادخل الطول',
+                                  isFormField: true,
+                                ),
+                              ],
                             ),
-                            CustomTextField(
-                              controller: chestLengthController,
-                              textInputType: TextInputType.number,
-                              isFormField: true,
-                              hintText: ' ادخل وسع الصدر ',
-                            ),
-                          ],
-                        ),
-                      )),
+                          )),
+
+
+
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'طول الكم',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 18),
+                                ),
+                                CustomTextField(
+                                  controller: komLengthController,
+                                  textInputType: TextInputType.number,
+                                  hintText: 'ادخل الطول',
+                                  isFormField: true,
+                                ),
+                              ],
+                            ),
+                          )),
+
+                      Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'وسع الصدر',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 18),
+                                ),
+                                CustomTextField(
+                                  controller: chestLengthController,
+                                  textInputType: TextInputType.number,
+                                  isFormField: true,
+                                  hintText: ' ادخل وسع الصدر ',
+                                ),
+                              ],
+                            ),
+                          )),
+
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -427,53 +513,55 @@ var customer =[];
                           ],
                         ),
                       )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'وسع اليد',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18),
-                            ),
-                            CustomTextField(
-                              controller: handLengthController,
-                              textInputType: TextInputType.streetAddress,
-                              isFormField: true,
-                              hintText: ' ادخل وسع اليد ',
-                            ),
-                          ],
-                        ),
-                      )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'طول الكيك ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18),
-                            ),
-                            CustomTextField(
-                              controller: kLengthController,
-                              textInputType: TextInputType.number,
-                              hintText: 'ادخل طول الكيك',
-                              isFormField: true,
-                            ),
-                          ],
-                        ),
-                      )),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'وسع اليد',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 18),
+                                ),
+                                CustomTextField(
+                                  controller: handLengthController,
+                                  textInputType: TextInputType.streetAddress,
+                                  isFormField: true,
+                                  hintText: ' ادخل وسع اليد ',
+                                ),
+                              ],
+                            ),
+                          )),
+
+                      Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'طول الكيك ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 18),
+                                ),
+                                CustomTextField(
+                                  controller: kLengthController,
+                                  textInputType: TextInputType.number,
+                                  hintText: 'ادخل طول الكيك',
+                                  isFormField: true,
+                                ),
+                              ],
+                            ),
+                          )),
+
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -495,10 +583,9 @@ var customer =[];
                           ],
                         ),
                       )),
-                      const Spacer(),
-                      const Spacer()
                     ],
                   ),
+                  const Divider(),
                   Row(
                     children: [
                       Expanded(
@@ -646,7 +733,11 @@ var customer =[];
                           ),
                         ],
                       )),
-                      Divider(),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
                       Expanded(
                           child: ExpansionTile(
                         shape: Border(),
@@ -731,17 +822,12 @@ var customer =[];
                           ),
                         ],
                       )),
-                    ],
-                  ),
-                  Divider(),
-                  Row(
-                    children: [
                       Expanded(
                         flex: 1,
                         child: ExpansionTile(
                           shape: Border(),
                           title: Column(children: [
-                            SvgPicture.asset('images/8.svg',
+                            SvgPicture.asset('images/1.svg',
                                 height: 80, semanticsLabel: 'Acme Logo'),
                             Text('الجانب'),
                           ]),
@@ -762,7 +848,7 @@ var customer =[];
                                         },
                                         selected: ganb1,
                                         child: SvgPicture.asset(
-                                          "images/8.svg",
+                                          "images/4.svg",
                                           height: 100,
                                         ),
                                       ),
@@ -784,7 +870,7 @@ var customer =[];
                                         },
                                         selected: ganb2,
                                         child: SvgPicture.asset(
-                                          "images/9.svg",
+                                          "images/2.svg",
                                           height: 100,
                                         ),
                                       ),
@@ -797,6 +883,11 @@ var customer =[];
                           ],
                         ),
                       ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
                       Expanded(
                           flex: 1,
                           child: ExpansionTile(
@@ -882,6 +973,124 @@ var customer =[];
                               ),
                             ],
                           )),
+                      Expanded(
+                        flex: 1,
+                        child: ExpansionTile(
+                          shape: Border(),
+                          title: Column(children: [
+                            SvgPicture.asset('images/3.svg',
+                                height: 100, semanticsLabel: 'Acme Logo'),
+                            const Text('الصدر'),
+                          ]),
+                          children: [
+                            Wrap(
+                              children: [
+                                SizedBox(
+                                  height: 160,
+                                  width: 150,
+                                  child: Column(
+                                    children: [
+                                      SelectableContainer(
+                                        onValueChanged: (newValue) {
+                                          setState(() {
+                                            sadr1 = newValue;
+                                            sadr2 = false;
+                                            sadr3 = false;
+                                            sadr4 = false;
+                                          });
+                                        },
+                                        selected: sadr1,
+                                        child: SvgPicture.asset(
+                                          "images/6.svg",
+                                          height: 100,
+                                        ),
+                                      ),
+                                      Text(' صدر لون في لون خط واحد')
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 160,
+                                  width: 150,
+                                  child: Column(
+                                    children: [
+                                      SelectableContainer(
+                                        onValueChanged: (newValue) {
+                                          setState(() {
+                                            sadr2 = newValue;
+                                            sadr1 = false;
+                                            sadr3 = false;
+                                            sadr4 = false;
+                                          });
+                                        },
+                                        selected: sadr2,
+                                        child: SvgPicture.asset(
+                                          "images/5.svg",
+                                          height: 100,
+                                        ),
+                                      ),
+                                      Text(' صدر عادي لون في لون 2 خط')
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 150,
+                                  width: 150,
+                                  child: Column(
+                                    children: [
+                                      SelectableContainer(
+                                        onValueChanged: (newValue) {
+                                          setState(() {
+                                            sadr3 = newValue;
+                                            sadr2 = false;
+                                            sadr1 = false;
+                                            sadr4 = false;
+                                          });
+                                        },
+                                        selected: sadr3,
+                                        child: SvgPicture.asset(
+                                          "images/6.svg",
+                                          height: 100,
+                                        ),
+                                      ),
+                                      Text(' صدر عادي ')
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 150,
+                                  width: 150,
+                                  child: Column(
+                                    children: [
+                                      SelectableContainer(
+                                        onValueChanged: (newValue) {
+                                          setState(() {
+                                            sadr4 = newValue;
+                                            sadr1 = false;
+                                            sadr3 = false;
+                                            sadr2 = false;
+                                          });
+                                        },
+                                        selected: sadr4,
+                                        child: SvgPicture.asset(
+                                          "images/3.svg",
+                                          height: 100,
+                                        ),
+                                      ),
+                                      Text(' صدر مخفي ')
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
                       Expanded(
                           flex: 1,
                           child: ExpansionTile(
@@ -1200,7 +1409,7 @@ var customer =[];
                           )),
                     ],
                   ),
-                  Divider(),
+                  const Divider(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -1222,7 +1431,7 @@ var customer =[];
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -1315,28 +1524,58 @@ var customer =[];
             child: Form(
               key: _formKey,
               child: Column(
+
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Image.asset(
+                        'images/crown.png',
+                        height: 60,
+                        color: accentCanvasColor,
+                      ),
+                      const  Text(
+                        "اضافة فاتورة",
+                        style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'الاسم',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 15),
-                        ),
-                        CustomTextField(
-                          controller: nameController,
-                          textInputType: TextInputType.name,
-                          isFormField: true,
-                          hintText: 'ادخل اسم المشتري',
-                        ),
-                      ],
-                    ),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'الاسم',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 18),
+                          ),
+                          CustomTextField(
+
+                            prefix: Icon(Icons.add_reaction_outlined),
+                            suffix: PopupMenuButton(
+                              onSelected: (c) {
+                                setState(() {
+                                  nameController..text = c.toString();
+                                });
+                              },
+                              child: const Icon(Icons.arrow_drop_down),
+                              itemBuilder: (context) => customer
+                                  .map((c) =>
+                                      PopupMenuItem(value: c, child: Text(c)))
+                                  .toList(),
+                            ),
+                            controller: nameController,
+                            isFormField: true,
+                            hintText: 'ادخل اسم المشتري',
+                          )
+                        ]),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -1350,6 +1589,7 @@ var customer =[];
                               fontWeight: FontWeight.w500, fontSize: 15),
                         ),
                         CustomTextField(
+                          prefix: Icon(Icons.phone_android),
                           controller: phoneController,
                           textInputType: TextInputType.number,
                           hintText: 'ادخل رقم الهاتف',
@@ -1370,6 +1610,8 @@ var customer =[];
                               fontWeight: FontWeight.w500, fontSize: 15),
                         ),
                         CustomTextField(
+                          prefix: Icon(Icons.home_outlined),
+
                           controller: addressController,
                           textInputType: TextInputType.streetAddress,
                           isFormField: true,
@@ -1390,6 +1632,8 @@ var customer =[];
                               fontWeight: FontWeight.w500, fontSize: 15),
                         ),
                         CustomTextField(
+                          prefix: Icon(Icons.attach_money),
+
                           controller: prizeController,
                           textInputType: TextInputType.number,
                           hintText: 'ادخل القيمة',
@@ -1414,6 +1658,8 @@ var customer =[];
                                   fontWeight: FontWeight.w500, fontSize: 15),
                             ),
                             CustomTextField(
+                              prefix: Icon(Icons.attach_money),
+
                               controller: amountPaidController,
                               textInputType: TextInputType.number,
                               isFormField: true,
@@ -1435,6 +1681,8 @@ var customer =[];
                                   fontWeight: FontWeight.w500, fontSize: 15),
                             ),
                             CustomTextField(
+                              prefix: Icon(Icons.attach_money),
+
                               controller: remainingAmountController,
                               textInputType: TextInputType.number,
                               hintText: 'ادخل المبلغ المتبقى',
@@ -1484,12 +1732,12 @@ var customer =[];
                               enabled: false,
                               hintText: _selectedDate.toString(),
                               labelText: _selectedDate.toString(),
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                   color: Colors.black45,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
                               // iconOrdrop: 'button',
-                              suffixIcon: IconButton(
+                              prefixIcon: IconButton(
                                   icon: const Icon(
                                     Icons.date_range,
                                     color: accentCanvasColor,
@@ -1503,7 +1751,12 @@ var customer =[];
                       ),
                     ],
                   ),
-                  Divider(),
+                  const Row(children: [
+                    Expanded(child: Divider()),
+                    Text("     المقاسات    ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                    Expanded(child: Divider()),
+
+                  ],),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -1550,6 +1803,53 @@ var customer =[];
                       )),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'الكتف',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 15),
+                                ),
+                                CustomTextField(
+                                  controller: ketfLengthController,
+                                  isFormField: true,
+                                  hintText: 'ادخل الطول ',
+                                ),
+                              ],
+                            ),
+                          )),
+                      Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'طول الكم',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 15),
+                                ),
+                                CustomTextField(
+                                  controller: komLengthController,
+                                  textInputType: TextInputType.number,
+                                  hintText: 'ادخل الطول',
+                                  isFormField: true,
+                                ),
+                              ],
+                            ),
+                          )),
+                    ],
+                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -1671,23 +1971,850 @@ var customer =[];
                       const Spacer()
                     ],
                   ),
-                  Divider(),
-                  Row(
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/11.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      Text('جلاب'),
+                    ]),
                     children: [
-                      Expanded(
-                          child: ExpansionTile(
-                        title: Text(''),
-                        leading: Image.asset(
-                          'images/1.jpeg',
-                          height: 80,
-                        ),
-                      )),
-                      Expanded(
-                          child: ExpansionTile(
-                              title: Image.asset(
-                        'images/crown.png',
-                        height: 50,
-                      ))),
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      glab1 = newValue;
+                                      glab2 = false;
+                                    });
+                                  },
+                                  selected: glab1,
+                                  child: SvgPicture.asset(
+                                    "images/11.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جلاب 2 زرار')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      glab2 = newValue;
+                                      glab1 = false;
+                                    });
+                                  },
+                                  selected: glab2,
+                                  child: SvgPicture.asset(
+                                    "images/10.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جلاب 1 زرار')
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/19.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      Text('الياقة'),
+                    ]),
+                    children: [
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      ya2a1 = newValue;
+                                      ya2a3 = false;
+                                      ya2a2 = false;
+                                    });
+                                  },
+                                  selected: ya2a1,
+                                  child: SvgPicture.asset(
+                                    "images/19.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('الياقة بدون زراير')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      ya2a2 = newValue;
+                                      ya2a1 = false;
+                                      ya2a3 = false;
+                                    });
+                                  },
+                                  selected: ya2a2,
+                                  child: SvgPicture.asset(
+                                    "images/26.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('الياقة 2 زرار')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      ya2a3 = newValue;
+                                      ya2a1 = false;
+                                      ya2a2 = false;
+                                    });
+                                  },
+                                  selected: ya2a3,
+                                  child: SvgPicture.asset(
+                                    "images/glap.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('الياقة زرار واحد')
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/23.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      Text('الجيب'),
+                    ]),
+                    children: [
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      gyb1 = newValue;
+                                      gyb2 = false;
+                                      gyb3 = false;
+                                    });
+                                  },
+                                  selected: gyb1,
+                                  child: SvgPicture.asset(
+                                    "images/23.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جيب مدور')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      gyb2 = newValue;
+                                      gyb1 = false;
+                                      gyb3 = false;
+                                    });
+                                  },
+                                  selected: gyb2,
+                                  child: SvgPicture.asset(
+                                    "images/16.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جيب مربع مثلث')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      gyb3 = newValue;
+                                      gyb1 = false;
+                                      gyb2 = false;
+                                    });
+                                  },
+                                  selected: gyb3,
+                                  child: SvgPicture.asset(
+                                    "images/21.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جيب مربع')
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/1.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      Text('الجانب'),
+                    ]),
+                    children: [
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      ganb1 = newValue;
+                                      ganb2 = false;
+                                    });
+                                  },
+                                  selected: ganb1,
+                                  child: SvgPicture.asset(
+                                    "images/4.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جانب شق')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      ganb2 = newValue;
+                                      ganb1 = false;
+                                    });
+                                  },
+                                  selected: ganb2,
+                                  child: SvgPicture.asset(
+                                    "images/2.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جانب بشليك')
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/12.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      Text('التقويره'),
+                    ]),
+                    children: [
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      taqwera1 = newValue;
+                                      taqwera2 = false;
+                                      taqwera3 = false;
+                                    });
+                                  },
+                                  selected: taqwera1,
+                                  child: SvgPicture.asset(
+                                    "images/12.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('كلفة تامة بشليك')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      taqwera2 = newValue;
+                                      taqwera1 = false;
+                                      taqwera3 = false;
+                                    });
+                                  },
+                                  selected: taqwera2,
+                                  child: SvgPicture.asset(
+                                    "images/13.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('كلفة تامة نص ياقة')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      taqwera3 = newValue;
+                                      taqwera2 = false;
+                                      taqwera1 = false;
+                                    });
+                                  },
+                                  selected: taqwera3,
+                                  child: SvgPicture.asset(
+                                    "images/7.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text('جلابية قشرة')
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/3.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      const Text('الصدر'),
+                    ]),
+                    children: [
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      sadr1 = newValue;
+                                      sadr2 = false;
+                                      sadr3 = false;
+                                      sadr4 = false;
+                                    });
+                                  },
+                                  selected: sadr1,
+                                  child: SvgPicture.asset(
+                                    "images/6.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  ' صدر لون في لون خط واحد',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      sadr2 = newValue;
+                                      sadr1 = false;
+                                      sadr3 = false;
+                                      sadr4 = false;
+                                    });
+                                  },
+                                  selected: sadr2,
+                                  child: SvgPicture.asset(
+                                    "images/5.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  ' صدر عادي لون في لون 2 خط',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      sadr3 = newValue;
+                                      sadr2 = false;
+                                      sadr1 = false;
+                                      sadr4 = false;
+                                    });
+                                  },
+                                  selected: sadr3,
+                                  child: SvgPicture.asset(
+                                    "images/6.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(' صدر عادي ')
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      sadr4 = newValue;
+                                      sadr1 = false;
+                                      sadr3 = false;
+                                      sadr2 = false;
+                                    });
+                                  },
+                                  selected: sadr4,
+                                  child: SvgPicture.asset(
+                                    "images/3.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(' صدر مخفي ')
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    expandedAlignment: Alignment.center,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.center,
+                    shape: Border(),
+                    title: Column(children: [
+                      SvgPicture.asset('images/8.svg',
+                          height: 80, semanticsLabel: 'Acme Logo'),
+                      Text('الكم'),
+                    ]),
+                    children: [
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom1 = newValue;
+                                      kom2 = false;
+                                      kom7 = false;
+                                      kom3 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom1,
+                                  child: SvgPicture.asset(
+                                    "images/17.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  'اساورة مربع كسرة واحدة',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom2 = newValue;
+                                      kom3 = false;
+                                      kom1 = false;
+                                      kom7 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom2,
+                                  child: SvgPicture.asset(
+                                    "images/20.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  'اساورة مربع 2 كسرة',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom3 = newValue;
+                                      kom2 = false;
+                                      kom7 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom3,
+                                  child: SvgPicture.asset(
+                                    "images/25.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  ' اساورة مربع بدون كسرة',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom4 = newValue;
+                                      kom2 = false;
+                                      kom3 = false;
+                                      kom1 = false;
+                                      kom7 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom4,
+                                  child: SvgPicture.asset(
+                                    "images/20.svg",
+                                    height: 70,
+                                  ),
+                                ),
+                                Text(
+                                  ' اساورة 2 كسرة',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom5 = newValue;
+                                      kom7 = false;
+                                      kom3 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom2 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom5,
+                                  child: SvgPicture.asset(
+                                    "images/24.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  ' اساورة كسرة واحدة',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom6 = newValue;
+                                      kom7 = false;
+                                      kom3 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom2 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom6,
+                                  child: SvgPicture.asset(
+                                    "images/22.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  "اساورة بشليك",
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom7 = newValue;
+                                      kom2 = false;
+                                      kom3 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom7,
+                                  child: SvgPicture.asset(
+                                    "images/15.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  "الكم سادة",
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom8 = newValue;
+                                      kom3 = false;
+                                      kom7 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom2 = false;
+                                    });
+                                  },
+                                  selected: kom8,
+                                  child: SvgPicture.asset(
+                                    "images/14.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  "الكم سادة+بشليك لزق",
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom9 = newValue;
+                                      kom3 = false;
+                                      kom7 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom2 = false;
+                                      kom5 = false;
+                                      kom10 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom9,
+                                  child: SvgPicture.asset(
+                                    "images/8.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  'كم بلدي',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 130,
+                            width: 120,
+                            child: Column(
+                              children: [
+                                SelectableContainer(
+                                  onValueChanged: (newValue) {
+                                    setState(() {
+                                      kom10 = newValue;
+                                      kom3 = false;
+                                      kom7 = false;
+                                      kom1 = false;
+                                      kom4 = false;
+                                      kom9 = false;
+                                      kom5 = false;
+                                      kom2 = false;
+                                      kom6 = false;
+                                      kom8 = false;
+                                    });
+                                  },
+                                  selected: kom10,
+                                  child: SvgPicture.asset(
+                                    "images/9.svg",
+                                    height: 60,
+                                  ),
+                                ),
+                                Text(
+                                  'كم شعراوي علية زراير',
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   Divider(),
