@@ -1751,6 +1751,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10,),
                   const Row(children: [
                     Expanded(child: Divider()),
                     Text("     المقاسات    ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
